@@ -68,6 +68,30 @@ non-negative integers. All dates are in ISO 8601 format.
 2021-06-05T17:45:14.812Z vote 84503f other.person -1
 ```
 
+## Configure & Run
+
+You will need to create a [Slack App](https://api.slack.com/apps) and set it
+to [socket mode](https://api.slack.com/apis/connections/socket). to run this app.
+Then create a **.env** file in the project directory and give it the following contents:
+
+```
+# BBucks config
+BBUCKS_LEDGER_PATH = /some/path/to/ledger.txt
+
+# Slack auth
+SLACK_SIGNING_SECRET=your_signing_secret
+SLACK_CLIENT_ID=your_client_id
+SLACK_CLIENT_SECRET=your_client_secret
+SLACK_APP_TOKEN=your_app_token
+SLACK_BOT_TOKEN=your_bot_token
+```
+
+Then run:
+
+```
+yarn start
+```
+
 ## Running Tests
 
 ```
