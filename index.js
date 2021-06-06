@@ -55,7 +55,11 @@ async function handleCommand(client, command, ack, say) {
     }
 
     if (response.say !== undefined) {
-      await say(response.say);
+      // Always post public messages in the bot channel, unless it's undefined
+      await client.chat.postMessage({
+        channel: process.env.BBUCKS_BOT_CHANNEL || command.channel_id,
+        text: response.say,
+      });
     }
   } catch (e) {
     if (e instanceof CommandError) {

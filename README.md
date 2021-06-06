@@ -77,6 +77,7 @@ Then create a **.env** file in the project directory and give it the following c
 ```
 # BBucks config
 BBUCKS_LEDGER_PATH = /some/path/to/ledger.txt
+#BBUCKS_BOT_CHANNEL = channel_id
 
 # Slack auth
 SLACK_SIGNING_SECRET=your_signing_secret
@@ -85,6 +86,10 @@ SLACK_CLIENT_SECRET=your_client_secret
 SLACK_APP_TOKEN=your_app_token
 SLACK_BOT_TOKEN=your_bot_token
 ```
+
+Bot channel is optional, but if it is defined then the bot will only post its
+public messages in the specified channel, which improves the transparency of
+transactions.
 
 Then run:
 
