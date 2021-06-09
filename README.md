@@ -28,14 +28,14 @@ channel is encouraged. And don't forget you can also just discuss issues face-to
 
 ## Slack Commands
 
-* `/claim <amount> for <reasons>` - Claim the given amount of funds from the universe
-* `/nominate <amount> to <username> for <reasons>` - Nominate another user to receive the given amount of funds from the universe
-* `/deny <transaction ID>` - Vote to deny the transaction with the given ID
-* `/confirm <transaction ID>` - Vote to confirm the transaction with the given ID
-* `/give <amount> to <username>` - Give the specified amount to the specified user
-* `/destroy <amount>` - Destroy the given amount of your balance
-* `/balance <username>` - Print the user's current balance
-* `/pending <username>` - List the pending claims involving the given user
+* `/claim [# bbucks] for [reason]` - Claim the given amount of funds from the universe
+* `/nominate [amount] to [username] for [reason]` - Nominate another user to receive the given amount of funds from the universe
+* `/deny [transaction ID] because [why]` - Vote to deny the transaction with the given ID
+* `/confirm [transaction ID] because [why]` - Vote to confirm the transaction with the given ID
+* `/give [# of bbucks] to [username]` - Give the specified amount to the specified user
+* `/destroy [# of bbucks]` - Destroy the given amount of your balance
+* `/balance [username]` - Print the user's current balance
+* `/pending [username]` - List the pending claims involving the given user
 
 ## Ledger Language
 
