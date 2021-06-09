@@ -1,6 +1,6 @@
 require('dotenv').config();
 const { App } = require('@slack/bolt');
-const { claim, deny, confirm, give, destroy, balance, pending, CommandError } = require('./commands');
+const { claim, nominate, deny, confirm, give, destroy, balance, pending, CommandError } = require('./commands');
 
 const app = new App({
   token: process.env.SLACK_BOT_TOKEN,
@@ -17,6 +17,9 @@ async function handleCommand(client, command, ack, say) {
     switch (command.command) {
       case '/claim':
         response = await claim(command.user_name, command.text);
+        break;
+      case '/nominate':
+        response = await nominate(command.user_name, command.text);
         break;
       case '/deny':
         response = await deny(command.user_name, command.text);
@@ -82,6 +85,7 @@ async function handleCommand(client, command, ack, say) {
   '/destroy',
   '/balance',
   '/pending',
+  '/nominate',
 ].forEach((cmd) => app.command(
   cmd,
   async ({ client, command, ack, say }) => handleCommand(client, command, ack, say),

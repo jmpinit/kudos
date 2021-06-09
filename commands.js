@@ -122,6 +122,65 @@ async function claim(userName, text) {
   return { say: `Transaction [${addedClaimID}]: ${userName} is claiming ${amount} bbucks for "${reason}"` };
 }
 
+async function nominate(userName, text) {
+  const parts = text.split(/\s+/);
+
+  if (parts.length === 1 && parts[0] === 'help') {
+    return { ephemeral: 'Here is an example: /nominate @bob 15 for cleaning the dishes' };
+  }
+
+  const nominateRe = /(?<amount>[0-9]+)\s+(to\s+)?(?<userName>@\w+)\s+(for\s+)?(?<reason>.+)/;
+  const matches = nominateRe.exec(text);
+
+  if (matches === null) {
+    throw new CommandError('Incorrect syntax');
+  }
+
+  if (!('amount' in matches.groups)) {
+    throw new CommandError('Missing amount to be claimed');
+  }
+
+  if (!('userName' in matches.groups)) {
+    throw new CommandError('Missing user to nominate');
+  }
+
+  if (!('reason' in matches.groups)) {
+    throw new CommandError('Missing reason for claim');
+  }
+
+  const amount = parseInt(matches.groups.amount, 10);
+
+  if (Number.isNaN(amount)) {
+    throw new CommandError('Amount of bbucks must be an integer');
+  }
+
+  if (amount !== parseFloat(matches.groups.amount)) {
+    throw new CommandError('Amount of bbucks must be an integer');
+  }
+
+  const { reason, userName: nominee } = matches.groups;
+
+  const ledger = await loadLedger();
+  if (!(nominee in ledger.getUsers())) {
+    throw new CommandError('Nominee does not have an identity in the ledger');
+  }
+
+  // https://stackoverflow.com/a/3818198
+  const matureDate = new Date();
+  matureDate.setDate(matureDate.getDate() + DAYS_TO_MATURE);
+
+  const addedClaimID = generateClaimUUID();
+
+  try {
+    await appendToLedger(`claim ${addedClaimID} ${matureDate.toISOString()} ${nominee} universe ${amount}`);
+  } catch (e) {
+    throw new CommandError(e.message);
+  }
+
+  // TODO: explain how to vote for or against the claim
+  return { say: `Transaction [${addedClaimID}]: ${userName} nominates ${nominee} to receive ${amount} bbucks for "${reason}"` };
+}
+
 async function deny(userName, text) {
   const parts = text.split(/\s+/);
 
@@ -399,6 +458,7 @@ async function pending(userName, text) {
 
 module.exports = {
   claim,
+  nominate,
   deny,
   confirm,
   give,
