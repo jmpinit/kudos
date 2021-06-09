@@ -29,6 +29,7 @@ channel is encouraged. And don't forget you can also just discuss issues face-to
 ## Slack Commands
 
 * `/claim <amount> for <reasons>` - Claim the given amount of funds from the universe
+* `/nominate <amount> to <username> for <reasons>` - Nominate another user to receive the given amount of funds from the universe
 * `/deny <transaction ID>` - Vote to deny the transaction with the given ID
 * `/confirm <transaction ID>` - Vote to confirm the transaction with the given ID
 * `/give <amount> to <username>` - Give the specified amount to the specified user
