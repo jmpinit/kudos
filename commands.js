@@ -129,7 +129,7 @@ async function nominate(userName, text) {
     return { ephemeral: 'Here is an example: /nominate @bob 15 for cleaning the dishes' };
   }
 
-  const nominateRe = /(?<amount>[0-9]+)\s+(to\s+)?(?<userName>@\w+)\s+(for\s+)?(?<reason>.+)/;
+  const nominateRe = /(?<amount>[0-9]+)\s+(to\s+)?@(?<userName>\w+)\s+(for\s+)?(?<reason>.+)/;
   const matches = nominateRe.exec(text);
 
   if (matches === null) {
