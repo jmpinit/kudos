@@ -198,7 +198,7 @@ async function give(ledger, userName, text) {
     return { ephemeral: 'Here is an example: /give 10 to @bob' };
   }
 
-  const giveRe = /(?<amount>[0-9]+)\s+(to\s+)?@(?<userName>.+)/;
+  const giveRe = /(?<amount>[0-9]+)\s+(to\s+)?@(?<userName>\S+)/;
   const matches = giveRe.exec(text);
 
   if (matches === null) {
@@ -231,11 +231,12 @@ async function give(ledger, userName, text) {
     throw new CommandError('User to give the funds to does not exist');
   }
 
+  const claimID = generateClaimUUID();
   const now = (new Date()).toISOString();
 
   return {
     say: `${userName} gave ${amount} to ${toUserName}`,
-    commands: [`claim ${now} ${toUserName} ${userName} ${amount}`],
+    commands: [`claim ${claimID} ${now} ${toUserName} ${userName} ${amount}`],
   };
 }
 
