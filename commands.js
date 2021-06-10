@@ -113,86 +113,6 @@ async function nominate(ledger, userName, text) {
   };
 }
 
-async function deny(ledger, userName, text) {
-  const parts = text.split(/\s+/);
-
-  if (parts.length === 1 && parts[0] === 'help') {
-    return { ephemeral: 'Here is an example: /deny a10a7e7f0e49e6cfdd2f5678ee3aa363 because they didn\'t do it' };
-  }
-
-  const denyRe = /(?<transactionID>\w+)\s+(because)?(?<reason>.+)/;
-  const matches = denyRe.exec(text);
-
-  if (matches === null) {
-    throw new CommandError('Incorrect syntax');
-  }
-
-  if (!('transactionID' in matches.groups)) {
-    throw new CommandError('Must specify the transaction ID of the transaction you want to vote to deny');
-  }
-
-  if (!('reason' in matches.groups)) {
-    throw new CommandError('Missing explanation of why you want to vote to deny the transaction');
-  }
-
-  const { transactionID } = matches.groups;
-
-  const transaction = ledger.getClaim(transactionID);
-
-  if (transaction === undefined) {
-    throw new CommandError('Transaction with given ID does not exist');
-  }
-
-  const fromUserName = ledger.getUserNamesByID(transaction.fromID)[0];
-  const toUserName = ledger.getUserNamesByID(transaction.toID)[0];
-
-  return {
-    say: `${userName} votes to deny claim [${transactionID}] of ${transaction.amount} from ${fromUserName} for ${toUserName}
-    There are now ${transaction.votes - 1} votes for the claim.`,
-    commands: [`vote ${transactionID} ${userName} -1`],
-  };
-}
-
-async function confirm(ledger, userName, text) {
-  const parts = text.split(/\s+/);
-
-  if (parts.length === 1 && parts[0] === 'help') {
-    return { ephemeral: 'Here is an example: /confirm a10a7e7f0e49e6cfdd2f5678ee3aa363 because they did do it' };
-  }
-
-  const confirmRe = /(?<transactionID>\w+)\s+(because)?(?<reason>.+)/;
-  const matches = confirmRe.exec(text);
-
-  if (matches === null) {
-    throw new CommandError('Incorrect syntax');
-  }
-
-  if (!('transactionID' in matches.groups)) {
-    throw new CommandError('Must specify the transaction ID of the transaction you want to vote to confirm');
-  }
-
-  if (!('reason' in matches.groups)) {
-    throw new CommandError('Missing explanation of why you want to vote to confirm the transaction');
-  }
-
-  const { transactionID } = matches.groups;
-
-  const transaction = ledger.getClaim(transactionID);
-
-  if (transaction === undefined) {
-    throw new CommandError('Transaction with given ID does not exist');
-  }
-
-  const fromUserName = ledger.getUserNamesByID(transaction.fromID)[0];
-  const toUserName = ledger.getUserNamesByID(transaction.toID)[0];
-
-  return {
-    say: `${userName} votes to confirm claim [${transactionID}] of ${transaction.amount} from ${fromUserName} for ${toUserName}
-    There are now ${transaction.votes + 1} votes for the claim.`,
-    commands: [`vote ${transactionID} ${userName} 1`],
-  };
-}
-
 async function give(ledger, userName, text) {
   const parts = text.split(/\s+/);
 
@@ -277,6 +197,86 @@ async function destroy(ledger, userName, text) {
   return {
     say: `${userName} destroyed ${amount}`,
     commands: [`claim ${now} universe ${userName} ${amount}`],
+  };
+}
+
+async function deny(ledger, userName, text) {
+  const parts = text.split(/\s+/);
+
+  if (parts.length === 1 && parts[0] === 'help') {
+    return { ephemeral: 'Here is an example: /deny a10a7e7f0e49e6cfdd2f5678ee3aa363 because they didn\'t do it' };
+  }
+
+  const denyRe = /(?<transactionID>\w+)\s+(because)?(?<reason>.+)/;
+  const matches = denyRe.exec(text);
+
+  if (matches === null) {
+    throw new CommandError('Incorrect syntax');
+  }
+
+  if (!('transactionID' in matches.groups)) {
+    throw new CommandError('Must specify the transaction ID of the transaction you want to vote to deny');
+  }
+
+  if (!('reason' in matches.groups)) {
+    throw new CommandError('Missing explanation of why you want to vote to deny the transaction');
+  }
+
+  const { transactionID } = matches.groups;
+
+  const transaction = ledger.getClaim(transactionID);
+
+  if (transaction === undefined) {
+    throw new CommandError('Transaction with given ID does not exist');
+  }
+
+  const fromUserName = ledger.getUserNamesByID(transaction.fromID)[0];
+  const toUserName = ledger.getUserNamesByID(transaction.toID)[0];
+
+  return {
+    say: `${userName} votes to deny claim [${transactionID}] of ${transaction.amount} from ${fromUserName} for ${toUserName}
+    There are now ${transaction.votes - 1} votes for the claim.`,
+    commands: [`vote ${transactionID} ${userName} -1`],
+  };
+}
+
+async function confirm(ledger, userName, text) {
+  const parts = text.split(/\s+/);
+
+  if (parts.length === 1 && parts[0] === 'help') {
+    return { ephemeral: 'Here is an example: /confirm a10a7e7f0e49e6cfdd2f5678ee3aa363 because they did do it' };
+  }
+
+  const confirmRe = /(?<transactionID>\w+)\s+(because)?(?<reason>.+)/;
+  const matches = confirmRe.exec(text);
+
+  if (matches === null) {
+    throw new CommandError('Incorrect syntax');
+  }
+
+  if (!('transactionID' in matches.groups)) {
+    throw new CommandError('Must specify the transaction ID of the transaction you want to vote to confirm');
+  }
+
+  if (!('reason' in matches.groups)) {
+    throw new CommandError('Missing explanation of why you want to vote to confirm the transaction');
+  }
+
+  const { transactionID } = matches.groups;
+
+  const transaction = ledger.getClaim(transactionID);
+
+  if (transaction === undefined) {
+    throw new CommandError('Transaction with given ID does not exist');
+  }
+
+  const fromUserName = ledger.getUserNamesByID(transaction.fromID)[0];
+  const toUserName = ledger.getUserNamesByID(transaction.toID)[0];
+
+  return {
+    say: `${userName} votes to confirm claim [${transactionID}] of ${transaction.amount} from ${fromUserName} for ${toUserName}
+    There are now ${transaction.votes + 1} votes for the claim.`,
+    commands: [`vote ${transactionID} ${userName} 1`],
   };
 }
 
