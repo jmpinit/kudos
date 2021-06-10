@@ -9,6 +9,24 @@ function generateClaimUUID() {
   return crypto.randomBytes(16).toString('hex');
 }
 
+function parseAmount(amountText) {
+  const amount = parseInt(amountText, 10);
+
+  if (Number.isNaN(amount)) {
+    throw new CommandError('Amount of bbucks must be an integer');
+  }
+
+  if (amount !== parseFloat(amountText)) {
+    throw new CommandError('Amount of bbucks must be an integer');
+  }
+
+  if (amount <= 0) {
+    throw new CommandError('Amount must be greater than 0');
+  }
+
+  return amount;
+}
+
 async function claim(ledger, userName, text) {
   const parts = text.split(/\s+/);
 
@@ -16,7 +34,7 @@ async function claim(ledger, userName, text) {
     return { ephemeral: 'Here is an example: /claim 15 for cleaning the dishes' };
   }
 
-  const claimRe = /(?<amount>[0-9]+)\s+(for\s+)?(?<reason>.+)/;
+  const claimRe = /(?<amount>-?[0-9]+)\s+(for\s+)?(?<reason>.+)/;
   const matches = claimRe.exec(text);
 
   if (matches === null) {
@@ -31,15 +49,7 @@ async function claim(ledger, userName, text) {
     throw new CommandError('Missing reason for claim');
   }
 
-  const amount = parseInt(matches.groups.amount, 10);
-
-  if (Number.isNaN(amount)) {
-    throw new CommandError('Amount of bbucks being claimed must be an integer');
-  }
-
-  if (amount !== parseFloat(matches.groups.amount)) {
-    throw new CommandError('Amount of bbucks being claimed must be an integer');
-  }
+  const amount = parseAmount(matches.groups.amount);
 
   const { reason } = matches.groups;
 
@@ -63,7 +73,7 @@ async function nominate(ledger, userName, text) {
     return { ephemeral: 'Here is an example: /nominate @bob 15 for cleaning the dishes' };
   }
 
-  const nominateRe = /(?<amount>[0-9]+)\s+(to\s+)?@(?<userName>\S+)\s+(for\s+)?(?<reason>.+)/;
+  const nominateRe = /(?<amount>-?[0-9]+)\s+(to\s+)?@(?<userName>\S+)\s+(for\s+)?(?<reason>.+)/;
   const matches = nominateRe.exec(text);
 
   if (matches === null) {
@@ -82,15 +92,7 @@ async function nominate(ledger, userName, text) {
     throw new CommandError('Missing reason for claim');
   }
 
-  const amount = parseInt(matches.groups.amount, 10);
-
-  if (Number.isNaN(amount)) {
-    throw new CommandError('Amount of bbucks must be an integer');
-  }
-
-  if (amount !== parseFloat(matches.groups.amount)) {
-    throw new CommandError('Amount of bbucks must be an integer');
-  }
+  const amount = parseAmount(matches.groups.amount);
 
   const { reason, userName: nominee } = matches.groups;
 
@@ -198,7 +200,7 @@ async function give(ledger, userName, text) {
     return { ephemeral: 'Here is an example: /give 10 to @bob' };
   }
 
-  const giveRe = /(?<amount>[0-9]+)\s+(to\s+)?@(?<userName>\S+)/;
+  const giveRe = /(?<amount>-?[0-9]+)\s+(to\s+)?@(?<userName>\S+)/;
   const matches = giveRe.exec(text);
 
   if (matches === null) {
@@ -213,15 +215,7 @@ async function give(ledger, userName, text) {
     throw new CommandError('Must specify the username of the user you want to give to');
   }
 
-  const amount = parseInt(matches.groups.amount, 10);
-
-  if (Number.isNaN(amount)) {
-    throw new CommandError('Amount being given must be an integer');
-  }
-
-  if (amount !== parseFloat(matches.groups.amount)) {
-    throw new CommandError('Amount being given must be an integer');
-  }
+  const amount = parseAmount(matches.groups.amount);
 
   const toUserName = matches.groups.userName;
 
