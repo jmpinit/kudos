@@ -1,6 +1,6 @@
-# BBucks
+# Kudos
 
-BBucks is a Slack app which provides a currency for users in a Slack workspace. As opposed to crypto currencies, bbucks
+Kudos is a Slack app which provides a currency for users in a Slack workspace. As opposed to crypto currencies, kudos
 is centralized and requires trust between the participating users. It is meant to provide the machinery of a social
 currency which allows participants to quantify goodwill produced by carrying out good deeds.
 
@@ -17,10 +17,10 @@ can interpret the destruction transaction as an exchange of value into their sys
 
 ## Suggested Usage
 
-Every week enough bbucks are minted into the universe account to bring its balance to 10080, which is the number of
-minutes in a week. It's suggested that the value of 1 bbuck is equal to 1 minute of engineering time.
+Every week enough kudos are minted into the universe account to bring its balance to 10080, which is the number of
+minutes in a week. It's suggested that the value of 1 kudos is equal to 1 minute of engineering time.
 
-Anyone may claim any amount of bbucks up to the total available in the universe account. However, everyone is encouraged
+Anyone may claim any amount of kudos up to the total available in the universe account. However, everyone is encouraged
 to vote to deny unreasonable claims.
 
 The system is implemented on top of Slack to make discussion about transactions easy. Such discussion in the exchange
@@ -28,12 +28,12 @@ channel is encouraged. And don't forget you can also just discuss issues face-to
 
 ## Slack Commands
 
-* `/claim [# bbucks] for [reason]` - Claim the given amount of funds from the universe
+* `/claim [# kudos] for [reason]` - Claim the given amount of funds from the universe
 * `/nominate [amount] to [username] for [reason]` - Nominate another user to receive the given amount of funds from the universe
 * `/deny [transaction ID] because [why]` - Vote to deny the transaction with the given ID
 * `/confirm [transaction ID] because [why]` - Vote to confirm the transaction with the given ID
-* `/give [# of bbucks] to [username]` - Give the specified amount to the specified user
-* `/destroy [# of bbucks]` - Destroy the given amount of your balance
+* `/give [# of kudos] to [username]` - Give the specified amount to the specified user
+* `/destroy [# of kudos]` - Destroy the given amount of your balance
 * `/balance [username]` - Print the user's current balance
 * `/pending [username]` - List the pending claims involving the given user
 
@@ -76,9 +76,9 @@ to [socket mode](https://api.slack.com/apis/connections/socket). to run this app
 Then create a **.env** file in the project directory and give it the following contents:
 
 ```
-# BBucks config
-BBUCKS_LEDGER_PATH = /some/path/to/ledger.txt
-#BBUCKS_BOT_CHANNEL = channel_id
+# Kudos config
+KUDOS_LEDGER_PATH = /some/path/to/ledger.txt
+#KUDOS_BOT_CHANNEL = channel_id
 
 # Slack auth
 SLACK_SIGNING_SECRET=your_signing_secret

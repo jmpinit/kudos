@@ -13,10 +13,10 @@ const app = new App({
 });
 
 function getLedgerPath() {
-  const ledgerPath = process.env.BBUCKS_LEDGER_PATH;
+  const ledgerPath = process.env.KUDOS_LEDGER_PATH;
 
   if (ledgerPath === undefined) {
-    throw new Error('Must define ledger path in BBUCKS_LEDGER_PATH env variable');
+    throw new Error('Must define ledger path in KUDOS_LEDGER_PATH env variable');
   }
 
   return ledgerPath;
@@ -123,7 +123,7 @@ async function handleCommand(client, command, ack, say) {
     if (response.say !== undefined) {
       // Always post public messages in the bot channel, unless it's undefined
       await client.chat.postMessage({
-        channel: process.env.BBUCKS_BOT_CHANNEL || command.channel_id,
+        channel: process.env.KUDOS_BOT_CHANNEL || command.channel_id,
         text: response.say,
       });
     }

@@ -13,11 +13,11 @@ function parseAmount(amountText) {
   const amount = parseInt(amountText, 10);
 
   if (Number.isNaN(amount)) {
-    throw new CommandError('Amount of bbucks must be an integer');
+    throw new CommandError('Amount of kudos must be an integer');
   }
 
   if (amount !== parseFloat(amountText)) {
-    throw new CommandError('Amount of bbucks must be an integer');
+    throw new CommandError('Amount of kudos must be an integer');
   }
 
   if (amount <= 0) {
@@ -61,7 +61,7 @@ async function claim(ledger, userName, text) {
 
   // TODO: explain how to vote for or against the claim
   return {
-    say: `Transaction [${addedClaimID}]: ${userName} is claiming ${amount} bbucks for "${reason}"`,
+    say: `Transaction [${addedClaimID}]: ${userName} is claiming ${amount} kudos for "${reason}"`,
     commands: [`claim ${addedClaimID} ${matureDate.toISOString()} ${userName} universe ${amount}`],
   };
 }
@@ -108,7 +108,7 @@ async function nominate(ledger, userName, text) {
 
   // TODO: explain how to vote for or against the claim
   return {
-    say: `Transaction [${addedClaimID}]: ${userName} nominates ${nominee} to receive ${amount} bbucks for "${reason}"`,
+    say: `Transaction [${addedClaimID}]: ${userName} nominates ${nominee} to receive ${amount} kudos for "${reason}"`,
     commands: [`claim ${addedClaimID} ${matureDate.toISOString()} ${nominee} universe ${amount}`],
   };
 }
@@ -307,7 +307,7 @@ async function balance(ledger, userName, text) {
   const amount = ledger.getBalance(targetUserName);
 
   return {
-    ephemeral: `${targetUserName} has ${amount} bbucks`,
+    ephemeral: `${targetUserName} has ${amount} kudos`,
   };
 }
 
